@@ -15,7 +15,7 @@ public class DefaultServlet extends HttpServlet {
       Writer writer = res.getWriter();
       writer.write("<html>\n<body>\n<h2>Damn Vulnerable log4j Web Application</h2>\n");
       writer.write("<p><a href='servlet'>Click here</a> to reach the vulnerable endpoint.</p>\n");
-      writer.write("<p>Use the HTTP Header 'User-Agent' for triggering the vulnerability.</p>\n");
+      writer.write("<p>Use the HTTP Header 'user-agent' for triggering the vulnerability.</p>\n");
       writer.write("</p>\n</body>\n</html>\n");
       writer.close();
     } catch(Exception e) {

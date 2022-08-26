@@ -17,9 +17,9 @@ public class VulnServlet extends HttpServlet {
       Map<String, String> headers = Collections.list(req.getHeaderNames()).stream().collect(Collectors.toMap(h -> h, req::getHeader));
       res.setContentType("text/plain; charset=utf-8");
       Writer writer = res.getWriter();
-      if(headers.containsKey("User-Agent")) {
+      if(headers.containsKey("user-agent")) {
         writer.write("Logging to console using vulnerable log4j2!\n");
-        logger.info(headers.get("User-Agent"));
+        logger.info(headers.get("user-agent"));
       } else {
         writer.write("Hello world\n");
       }
